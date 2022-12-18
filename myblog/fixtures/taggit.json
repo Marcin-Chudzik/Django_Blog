@@ -1,0 +1,335 @@
+[
+{
+    "model": "taggit.tag",
+    "pk": 2,
+    "fields": {
+        "name": "Django",
+        "slug": "django"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 3,
+    "fields": {
+        "name": "Python",
+        "slug": "python"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 4,
+    "fields": {
+        "name": "JavaScript",
+        "slug": "javascript"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 5,
+    "fields": {
+        "name": "HTML",
+        "slug": "html"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 6,
+    "fields": {
+        "name": "IT",
+        "slug": "it"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 7,
+    "fields": {
+        "name": "AWS",
+        "slug": "aws"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 8,
+    "fields": {
+        "name": "Docker",
+        "slug": "docker"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 9,
+    "fields": {
+        "name": "Cloud",
+        "slug": "cloud"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 10,
+    "fields": {
+        "name": "Azure",
+        "slug": "azure"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 11,
+    "fields": {
+        "name": "CSS",
+        "slug": "css"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 12,
+    "fields": {
+        "name": "C#",
+        "slug": "c"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 13,
+    "fields": {
+        "name": "Java",
+        "slug": "java"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 14,
+    "fields": {
+        "name": "Dart",
+        "slug": "dart"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 15,
+    "fields": {
+        "name": "Flutter",
+        "slug": "flutter"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 16,
+    "fields": {
+        "name": "Flask",
+        "slug": "flask"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 17,
+    "fields": {
+        "name": "Event",
+        "slug": "event"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 18,
+    "fields": {
+        "name": "PHP",
+        "slug": "php"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 19,
+    "fields": {
+        "name": "Vue.js",
+        "slug": "vuejs"
+    }
+},
+{
+    "model": "taggit.taggeditem",
+    "pk": 2,
+    "fields": {
+        "tag": 8,
+        "content_type": 7,
+        "object_id": 20
+    }
+},
+{
+    "model": "taggit.taggeditem",
+    "pk": 3,
+    "fields": {
+        "tag": 2,
+        "content_type": 7,
+        "object_id": 20
+    }
+},
+{
+    "model": "taggit.taggeditem",
+    "pk": 4,
+    "fields": {
+        "tag": 3,
+        "content_type": 7,
+        "object_id": 20
+    }
+},
+{
+    "model": "taggit.taggeditem",
+    "pk": 5,
+    "fields": {
+        "tag": 2,
+        "content_type": 7,
+        "object_id": 21
+    }
+},
+{
+    "model": "taggit.taggeditem",
+    "pk": 6,
+    "fields": {
+        "tag": 3,
+        "content_type": 7,
+        "object_id": 21
+    }
+},
+{
+    "model": "taggit.taggeditem",
+    "pk": 7,
+    "fields": {
+        "tag": 4,
+        "content_type": 7,
+        "object_id": 21
+    }
+},
+{
+    "model": "taggit.taggeditem",
+    "pk": 8,
+    "fields": {
+        "tag": 6,
+        "content_type": 7,
+        "object_id": 21
+    }
+},
+{
+    "model": "taggit.taggeditem",
+    "pk": 9,
+    "fields": {
+        "tag": 8,
+        "content_type": 7,
+        "object_id": 21
+    }
+},
+{
+    "model": "taggit.taggeditem",
+    "pk": 10,
+    "fields": {
+        "tag": 16,
+        "content_type": 7,
+        "object_id": 21
+    }
+},
+{
+    "model": "taggit.taggeditem",
+    "pk": 11,
+    "fields": {
+        "tag": 9,
+        "content_type": 7,
+        "object_id": 22
+    }
+},
+{
+    "model": "taggit.taggeditem",
+    "pk": 12,
+    "fields": {
+        "tag": 7,
+        "content_type": 7,
+        "object_id": 22
+    }
+},
+{
+    "model": "taggit.taggeditem",
+    "pk": 13,
+    "fields": {
+        "tag": 6,
+        "content_type": 7,
+        "object_id": 22
+    }
+},
+{
+    "model": "taggit.taggeditem",
+    "pk": 14,
+    "fields": {
+        "tag": 17,
+        "content_type": 7,
+        "object_id": 22
+    }
+},
+{
+    "model": "taggit.taggeditem",
+    "pk": 15,
+    "fields": {
+        "tag": 2,
+        "content_type": 7,
+        "object_id": 23
+    }
+},
+{
+    "model": "taggit.taggeditem",
+    "pk": 16,
+    "fields": {
+        "tag": 3,
+        "content_type": 7,
+        "object_id": 23
+    }
+},
+{
+    "model": "taggit.taggeditem",
+    "pk": 17,
+    "fields": {
+        "tag": 17,
+        "content_type": 7,
+        "object_id": 24
+    }
+},
+{
+    "model": "taggit.taggeditem",
+    "pk": 18,
+    "fields": {
+        "tag": 3,
+        "content_type": 7,
+        "object_id": 24
+    }
+},
+{
+    "model": "taggit.taggeditem",
+    "pk": 19,
+    "fields": {
+        "tag": 6,
+        "content_type": 7,
+        "object_id": 24
+    }
+},
+{
+    "model": "taggit.taggeditem",
+    "pk": 20,
+    "fields": {
+        "tag": 11,
+        "content_type": 7,
+        "object_id": 25
+    }
+},
+{
+    "model": "taggit.taggeditem",
+    "pk": 21,
+    "fields": {
+        "tag": 4,
+        "content_type": 7,
+        "object_id": 25
+    }
+},
+{
+    "model": "taggit.taggeditem",
+    "pk": 22,
+    "fields": {
+        "tag": 5,
+        "content_type": 7,
+        "object_id": 25
+    }
+}
+]

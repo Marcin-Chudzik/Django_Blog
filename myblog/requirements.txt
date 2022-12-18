@@ -1,0 +1,4 @@
+Django==4.1
+django-taggit==3.0.0
+django-decouple==2.1
+Markdown==3.4.1

@@ -1,0 +1,17 @@
+<div class="paginator">
+  <span>
+    {% if page.has_previous %}
+    <a class="btn" href="?page={{ page.previous_page_number }}">Newer</a>
+    {% else %}
+    <a class="btn btn--hidden">Newest</a>
+    {% endif %}
+    <span>
+      Page {{ page.number }} from {{ page.paginator.num_pages }}.
+    </span>
+    {% if page.has_next %}
+    <a class="btn" href="?page={{ page.next_page_number }}">Older</a>
+    {% else %}
+    <a class="btn btn--hidden">No more</a>
+    {% endif %}
+  </span>
+</div>

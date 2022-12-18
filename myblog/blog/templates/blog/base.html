@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% load static %}
+{% load blog_tags %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'blog_app/css/stylesheet.css' %}">
+    <link rel="icon" href="{% static 'blog_app/img/favicon.ico' %}">
+    <title>My blog</title>
+  </head>
+
+  <body>
+    {% include "blog/navigation.html" %}
+    <div class="content" id="content">
+      {% block content %}
+      {% endblock %}
+    </div>
+<!--   SIDEBAR WITH NEWEST POSTS -->
+    <div class="sidebar">
+      <h2>Newest posts</h2>
+      {% show_latest_posts %}
+    </div>
+<!--   SIDEBAR WITH MOSTLY COMMENTED POSTS -->
+    <div class="sidebar sidebar--second">
+      <h2>Mostly commented posts</h2>
+      {% show_mostly_commented_posts %}
+    </div>
+    {% include "blog/footer.html" %}
+  </body>
+</html>
