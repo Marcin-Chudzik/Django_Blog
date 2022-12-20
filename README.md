@@ -16,12 +16,12 @@ Main functionalities in the project:
 
 1. Using a GIT write the command.
     ``` bash
-    git clone https://github.com/Marcin-Chudzik/Django_Blog.git
+    git clone https://github.com/Marcin-Chudzik/django-blog.git
     ```
 
 2. Install PostgreSQL.<br>
 **!IMPORTANT!**<br> Default setting for project are wrote to work with PostgreSQL installed with the instruction from below.
-If you change the admin username or password, please remember that they need to be changed later in the **Django_Blog/myblog/settings.py**.
+If you change the admin username or password, please remember that they need to be changed later in the **django-blog/myblog/settings.py**.
 <br><br>*Make a steps till **12** it's enough to run the project.*<br>
 Link to the instruction how to install it correctly -> 
 <a href="https://www.postgresql.r2schools.com/how-to-install-postgresql-11-and-pgadmin-on-windows-11/">
@@ -30,7 +30,7 @@ Installation instruction for PostgreSQL
 
 3. Create a new virtual environment.<br>
 Open a repository in the code editor (I'm using Pycharm).<br>
-Open a terminal and being in the "Django_Blog" directory type a command:
+Open a terminal and being in the "django-blog" directory type a command:
     ``` python
     python.exe -m venv venv
     ```
