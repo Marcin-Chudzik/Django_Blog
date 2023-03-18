@@ -7,7 +7,7 @@
       <button type="submit" class="btn--search">
         <img src="{% static 'blog_app/img/loupe.png' %}" alt="search">
       </button>
-      {{ search_form.query }}
+      {{ forms.search_form.query }}
       {% csrf_token %}
     </form>
     {% endif %}
