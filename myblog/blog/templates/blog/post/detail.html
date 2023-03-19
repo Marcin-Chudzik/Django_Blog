@@ -51,7 +51,7 @@
           <form action="." method="POST">
             <div class="modal-form">
               <h2>Add comment</h2>
-              {% for field in comment_form %}
+              {% for field in forms.comment_form %}
               <div class="modal-form-field">
                 <label class="form-label">{{ field.label }}</label>
                 <span class="form-field">{{ field }}</span>
@@ -73,7 +73,7 @@
           <form action="." method="POST">
             <div class="modal-form">
               <h2>Share post</h2>
-              {% for field in share_form %}
+              {% for field in forms.share_form %}
               <div class="modal-form-field">
                 <label class="form-label">{{ field.label }}</label>
                 <span class="form-field">{{ field }}</span>

@@ -13,7 +13,7 @@ from .forms import EmailPostForm, CommentForm, PostForm, TagForm, SearchForm
 from .models import Post, Comment
 
 
-def post_list(request, tag_slug=None):
+def post_list(request, tag_slug: str = None):
     """
         View function that displays a list of published blog posts.
 
@@ -60,9 +60,6 @@ def post_list(request, tag_slug=None):
         - `tag`: The tag object to filter posts by (if any)
         - `forms`: A dictionary of form objects to include on the page
         - `query`: The search query string (if any)
-
-        The function uses the `render` shortcut to render the `list.html` template and
-        pass the context variables to it.
     """
     object_list = Post.published.all()
     paginated_by = 10
@@ -114,13 +111,11 @@ def post_list(request, tag_slug=None):
                     return HttpResponseRedirect(reverse('blog:post_list'))
 
         if to_delete_post:
-            post = Post.published.get(pk=to_delete_post)
-            post.delete()
+            Post.published.get(pk=to_delete_post).delete()
             return HttpResponseRedirect(reverse('blog:post_list'))
 
         if to_delete_comment:
-            comment = Comment.is_active.get(pk=to_delete_comment)
-            comment.delete()
+            Comment.is_active.get(pk=to_delete_comment).delete()
             return HttpResponseRedirect(reverse('blog:post_list'))
 
     if tag_slug:
@@ -148,9 +143,47 @@ def post_list(request, tag_slug=None):
     return render(request, 'blog/post/list.html', context)
 
 
-def post_detail(request, year, month, day, post):
+def post_detail(request, year: str, month: str, day: str, post_slug: str):
+    """
+    View function that displays the detail page for a single blog post.
+
+    :param request: HttpRequest object representing the incoming request
+    :param year: string representing the year of the post's publication date
+    :param month: string representing the month of the post's publication date
+    :param day: string representing the day of the post's publication date
+    :param post_slug: string representing the slug of the post to display
+    :return: HttpResponse object representing the server's response
+
+    This view function retrieves a single blog post from the database using the `get_object_or_404` function
+    and filtering by the post's `slug`, `status`, and `publish` date (year, month, and day) attributes.
+    It also retrieves any comments associated with the post using the `comments`
+    reverse relationship on the `Post` model.
+
+    The function then retrieves a list of similar posts by filtering the published posts in the database using
+    the `tags` reverse relationship on the `Post` model and ordering them by the number of shared tags with the current
+    post, followed by the publication date. It uses the `annotate` and `order_by` methods to achieve this.
+
+    The view function supports the following forms:
+    - `CommentForm`: Allows users to add comments to blog posts. If a valid `CommentForm` is submitted,
+      the function adds the comment to the corresponding post and redirects to the `post_detail` view.
+    - `EmailPostForm`: Allows users to share blog posts via email. If a valid `EmailPostForm` is submitted,
+      the function sends an email to the specified recipient with a link to the post and the user's message.
+
+    If the incoming request is a POST request, the view function processes any submitted forms included in the request.
+    The function checks for several specific form names and performs different actions based on the form name.
+
+    If the incoming request contains a `to-delete-comment` parameter in the POST data, the function deletes
+    the corresponding comment from the database and redirects to the `post_detail` view.
+
+    The function also includes several context variables that are passed to the template for rendering, including:
+    - `post`: The blog post to display
+    - `comments`: The comments associated with the post
+    - `forms`: A dictionary of form objects to include on the page
+    - `similar_posts`: A list of similar posts based on shared tags
+    - `sent`: A boolean indicating whether an email was successfully sent
+    """
     post = get_object_or_404(Post,
-                             slug=post,
+                             slug=post_slug,
                              status='published',
                              publish__year=year,
                              publish__month=month,
@@ -160,43 +193,44 @@ def post_detail(request, year, month, day, post):
     similar_posts = Post.published.filter(tags__in=post_tags_ids).exclude(id=post.id)
     similar_posts = similar_posts.annotate(same_tags=Count('tags')).order_by('-same_tags', '-publish')[:4]
     sent = False
+    forms = {
+        'comment_form': CommentForm,
+        'share_form': EmailPostForm,
+    }
+    context = {
+        'post': post,
+        'comments': comments,
+        'forms': forms,
+        'similar_posts': similar_posts,
+        'sent': sent,
+    }
 
     if request.method == 'POST':
-        comment_form = CommentForm(request.POST)
-        share_form = EmailPostForm(request.POST)
-        to_delete_comment = request.POST.get("to-delete-comment")
+        to_delete_comment = request.POST.get("to-delete-comment", None)
 
-        if comment_form.is_valid():
-            new_comment = comment_form.save(commit=False)
-            new_comment.post = post
-            new_comment.save()
-            return HttpResponseRedirect(reverse('blog:post_detail',
-                                                args=[year, month, day, post.slug]))
+        for form_name, form_class in forms.items():
+            forms[form_name] = form_class(request.POST)
+            if forms[form_name].is_valid():
+                if form_name == 'comment_form':
+                    new_comment = forms[form_name].save(commit=False)
+                    new_comment.post = post
+                    new_comment.save()
+                    return HttpResponseRedirect(reverse('blog:post_detail', args=[year, month, day, post.slug]))
 
-        if share_form.is_valid():
-            data = share_form.cleaned_data
-            post_url = request.build_absolute_uri(post.get_absolute_url())
-            subject = f'{data["name"]} ({data["email"]} encourage to read "{post.title}"'
-            message = f'Read post "{post.title}" on page {post_url}' \
-                      f'Comment added by {data["name"]}: {data["comments"]}.'
-            send_mail(subject, message, 'admin@myblog.com', (data['to'],))
-            sent = True
-            share_form = EmailPostForm()
-            return render(request, 'blog/post/detail.html',
-                          {'post': post, 'comments': comments, 'comment_form': comment_form,
-                           'share_form': share_form, 'similar_posts': similar_posts, 'sent': sent})
+                elif form_name == 'share_form':
+                    data = forms[form_name].cleaned_data
+                    post_url = request.build_absolute_uri(post.get_absolute_url())
+                    subject = f'{data["name"]} ({data["email"]} encourage to read "{post.title}"'
+                    message = f'Read post "{post.title}" on page {post_url}' \
+                              f'Comment added by {data["name"]}: {data["comments"]}.'
+                    send_mail(subject, message, 'admin@myblog.com', (data['to'],))
+                    context['sent'] = True
+                    forms[form_name] = EmailPostForm()
+
+                    return render(request, 'blog/post/detail.html', context)
 
         if to_delete_comment:
-            comment = Comment.is_active.get(pk=to_delete_comment)
-            comment.delete()
-            return render(request, 'blog/post/detail.html',
-                          {'post': post, 'comments': comments, 'comment_form': comment_form,
-                           'share_form': share_form, 'similar_posts': similar_posts, 'sent': sent})
+            Comment.is_active.get(pk=to_delete_comment).delete()
+            return render(request, 'blog/post/detail.html', context)
 
-    else:
-        comment_form = CommentForm()
-        share_form = EmailPostForm()
-
-    return render(request, 'blog/post/detail.html',
-                  {'post': post, 'comments': comments, 'comment_form': comment_form,
-                   'share_form': share_form, 'similar_posts': similar_posts})
+    return render(request, 'blog/post/detail.html', context)
