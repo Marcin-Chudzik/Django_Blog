@@ -12,7 +12,7 @@
 
   <body>
     {% include "blog/navigation.html" %}
-    <div class="content" id="content">
+    <div class="content">
       {% block content %}
       {% endblock %}
     </div>
@@ -27,5 +27,7 @@
       {% show_mostly_commented_posts %}
     </div>
     {% include "blog/footer.html" %}
+
+  <script src="{% static 'blog_app/js/controller.js' %}"></script>
   </body>
 </html>

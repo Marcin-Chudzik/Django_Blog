@@ -5,9 +5,7 @@
     {% else %}
     <a class="btn btn--hidden">Newest</a>
     {% endif %}
-    <span>
-      Page {{ page.number }} from {{ page.paginator.num_pages }}.
-    </span>
+    <span>Page {{ page.number }} from {{ page.paginator.num_pages }}</span>
     {% if page.has_next %}
     <a class="btn" href="?page={{ page.next_page_number }}">Older</a>
     {% else %}

@@ -89,10 +89,11 @@ def post_list(request, tag_slug: str = None):
                         .order_by('-rank')
 
                 elif form_name == 'comment_form':
-                    post_id = forms[form_name].data['id']
-                    post = get_object_or_404(Post, id=post_id)
-                    forms[form_name].save(commit=False).post = post
-                    forms[form_name].save()
+                    post_id = request.POST.get('post-id', None)
+                    if post_id:
+                        post = get_object_or_404(Post, id=post_id)
+                        forms[form_name].save(commit=False).post = post
+                        forms[form_name].save()
                     return HttpResponseRedirect(reverse('blog:post_list'))
 
                 elif form_name == 'tag_form':

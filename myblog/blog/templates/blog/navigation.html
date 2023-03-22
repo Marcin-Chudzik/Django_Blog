@@ -1,5 +1,5 @@
 {% load static %}
-<nav class="nav_bar" xmlns="http://www.w3.org/1999/html">
+<nav class="nav_bar">
   <div class="container">
     <h2>Marcin Chudzik</h2>
     {% if posts %}
@@ -16,7 +16,8 @@
         <h1>My blog</h1>
       </a>
       <a href="{% url 'blog:post_feed' %}" aria-label="blog-feed">
-        <span>>></span>Subscribe channel RSS<span><<</span></a>
+        <span>>></span>Subscribe channel RSS<span><<</span>
+      </a>
     </div>
   </div>
 </nav>
