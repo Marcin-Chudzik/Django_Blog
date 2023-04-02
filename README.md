@@ -1,7 +1,5 @@
 # Blog App
 
-This app is a simple example of a personal Blog, built in Python/Django.
-
 A personal blog application where we can add and delete posts. Tag them with created tags or create a completely new tag. Each post has the ability to add and delete comments. We can search for posts by their titles or content, and filter them by tags. The app displays similar posts under the one that is currently being read, and the homepage displays the currently newest posts and those with the most comments.
 
 Main functionalities in the project:
