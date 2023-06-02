@@ -6,22 +6,25 @@ from taggit.managers import TaggableManager
 
 
 class PublishedManager(models.Manager):
+    """Manager for published posts."""
     def get_queryset(self):
         return super(PublishedManager, self).get_queryset().filter(status='published')
 
 
 class ActiveManager(models.Manager):
+    """Manager for active comments."""
     def get_queryset(self):
         return super(ActiveManager, self).get_queryset().filter(active=True)
 
 
 class Post(models.Model):
-    objects = models.Manager()  # default manager
-    published = PublishedManager()  # customized manager
     STATUS_CHOICES = (
         ('draft', 'Draft'),
         ('published', 'Published'),
     )
+
+    objects = models.Manager()
+    published = PublishedManager()
     title = models.CharField(max_length=50)
     slug = models.SlugField(max_length=150, unique_for_date='publish')
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_posts')
@@ -39,17 +42,17 @@ class Post(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('blog:post_detail',
-                       args=[
+        return reverse('blog:post-detail', args=[
                            self.publish.year,
                            self.publish.strftime('%m'),
                            self.publish.strftime('%d'),
-                           self.slug])
+                           self.slug
+        ])
 
 
 class Comment(models.Model):
-    objects = models.Manager()  # default manager
-    is_active = ActiveManager()  # customized manager
+    objects = models.Manager()
+    is_active = ActiveManager()
 
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     name = models.CharField(max_length=80)
@@ -63,4 +66,4 @@ class Comment(models.Model):
         ordering = ('created',)
 
     def __str__(self):
-        return f'Komentarz dodany przez {self.name} dla posta {self.post}.'
+        return f'{self.name} added a comment for the post "{self.post}".'
