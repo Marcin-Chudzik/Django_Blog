@@ -6,11 +6,13 @@ from taggit.managers import TaggableManager
 
 
 class PublishedManager(models.Manager):
+    """Manager for published posts."""
     def get_queryset(self):
         return super(PublishedManager, self).get_queryset().filter(status='published')
 
 
 class ActiveManager(models.Manager):
+    """Manager for active comments."""
     def get_queryset(self):
         return super(ActiveManager, self).get_queryset().filter(active=True)
 
@@ -40,7 +42,7 @@ class Post(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('blog:post_detail', args=[
+        return reverse('blog:post-detail', args=[
                            self.publish.year,
                            self.publish.strftime('%m'),
                            self.publish.strftime('%d'),

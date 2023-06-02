@@ -110,7 +110,7 @@
       </span>
       <span class="post-tags">
         {% for tag in post.tags.all %}
-        <a class="btn btn--dark" href="{% url 'blog:post_list_by_tag' tag.slug %}">{{ tag.name }}</a>
+        <a class="btn btn--dark" href="{% url 'blog:post-list-by-tag' tag.slug %}">{{ tag.name }}</a>
         {% endfor %}
       </span>
       <p>posted on <time>{{ post.publish|date:"d.m.Y" }}</time></p>
@@ -123,7 +123,7 @@
     <div class="alert alert--warning">
       <img src="{% static 'blog_app/img/warning.png' %}" alt="warning">
       <h2>Please go back to home page and try again.</h2>
-      <a href="{% url 'blog:post_list' %}" class="btn btn--white">Go back</a>
+      <a href="{% url 'blog:post-list' %}" class="btn btn--white">Go back</a>
     </div>
   {% endfor %}
   <div id="listModalComment" class="modal">

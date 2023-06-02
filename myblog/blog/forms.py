@@ -1,9 +1,13 @@
 from django import forms
-from .models import Comment, Post
+from .models import (
+    Comment,
+    Post,
+)
 from taggit.models import Tag
 
 
 class EmailPostForm(forms.Form):
+    """Share a post via email form."""
     name = forms.CharField(
         max_length=25,
         label='Name',
@@ -22,6 +26,7 @@ class EmailPostForm(forms.Form):
 
 
 class CommentForm(forms.ModelForm):
+    """Create a new comment form."""
     class Meta:
         model = Comment
         fields = ('name', 'email', 'body')
@@ -40,6 +45,7 @@ class CommentForm(forms.ModelForm):
 
 
 class PostForm(forms.ModelForm):
+    """Create a new post form."""
     def __init__(self, *args, **kwargs):
         super(PostForm, self).__init__(*args, **kwargs)
         self.fields['tags'].choices = self.get_dynamic_choice()
@@ -69,6 +75,7 @@ class PostForm(forms.ModelForm):
 
 
 class TagForm(forms.ModelForm):
+    """Create a new tag form."""
     class Meta:
         model = Tag
         fields = ('name',)
@@ -80,6 +87,7 @@ class TagForm(forms.ModelForm):
 
 
 class SearchForm(forms.Form):
+    """Search for posts form."""
     query = forms.CharField(
         label='',
         widget=forms.TextInput(attrs={'type': 'search', 'placeholder': 'Django..'}))
