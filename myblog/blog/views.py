@@ -72,15 +72,17 @@ def post_list(request, tag_slug: str = None):
                 if form_name == 'search_form':
                     """Filter database query by submitted keyword."""
                     query = forms[form_name].cleaned_data['query']
-                    search_vector = SearchVector('title', weight='A') + SearchVector('body', weight='B')
+                    search_vector_A = SearchVector('title', weight='A')
+                    search_vector_B = SearchVector('body', weight='B')
+                    search_vector = search_vector_A + search_vector_B
                     search_query = SearchQuery(query)
                     object_list = Post.objects.annotate(
                         search=search_vector,
                         rank=SearchRank(search_vector, search_query)
-                        ).filter(rank__gte=0.3).order_by('-rank')
+                    ).filter(rank__gte=0.3).order_by('-rank')
 
                 elif form_name == 'comment_form':
-                    """Create and add new comment to the post, then redirect to the post-list view."""
+                    """Create and add new comment to the post."""
                     post_id = request.POST.get('post-id', None)
 
                     if post_id:
@@ -91,14 +93,14 @@ def post_list(request, tag_slug: str = None):
                     return HttpResponseRedirect(reverse('blog:post-list'))
 
                 elif form_name == 'tag_form':
-                    """Create a new tag and redirect to the post-list view."""
+                    """Create a new tag."""
                     new_tag = forms[form_name].save(commit=False)
                     new_tag.slug = slugify(new_tag.name)
                     new_tag.save()
                     return HttpResponseRedirect(reverse('blog:post-list'))
 
                 elif form_name == 'post_form':
-                    """Create a new post and redirect to the post-list view."""
+                    """Create a new post."""
                     new_post = forms[form_name].save(commit=False)
                     new_post.slug = slugify(new_post.title)
                     new_post.author = User.objects.get(pk=1)
@@ -144,15 +146,19 @@ def post_list(request, tag_slug: str = None):
 
 def post_detail(request, year: str, month: str, day: str, post_slug: str):
     """
-    View function that displays the detail page for a single blog post with related comments.
+    View function that displays the detail page for
+    a single blog post with related comments.
     Performs different actions based on the incoming form.
-    Shows similar posts which contain the biggest number of shared tags with displayed post
+    Shows similar posts which contain the biggest number
+    of shared tags with displayed post
     followed by the publication date.
 
-    :params year, month, day: Strings representing the year, month and day of the post's publication date.
+    :params year, month, day: Strings representing the year,
+     month and day of the post's publication date.
     :param post_slug: string representing the slug of the post to display.
 
-    The function also includes several context variables that are passed to the template for rendering, including:
+    The function also includes several context variables that
+    are passed to the template for rendering, including:
     - `post`: The blog post to display.
     - `comments`: The comments associated with the post.
     - `forms`: A dictionary of form objects to include on the page.
@@ -167,10 +173,10 @@ def post_detail(request, year: str, month: str, day: str, post_slug: str):
                              publish__day=day)
     comments = post.comments.filter(active=True)
     post_tags_ids = post.tags.values_list('id', flat=True)
-    similar_posts = Post.published.filter(tags__in=post_tags_ids)\
-        .exclude(id=post.id)\
-        .annotate(same_tags=Count('tags'))\
-        .order_by('-same_tags', '-publish')[:4]
+    similar_posts = Post.published.filter(tags__in=post_tags_ids) \
+                        .exclude(id=post.id) \
+                        .annotate(same_tags=Count('tags')) \
+                        .order_by('-same_tags', '-publish')[:4]
     sent = False
     forms = {
         'comment_form': CommentForm,
@@ -192,23 +198,38 @@ def post_detail(request, year: str, month: str, day: str, post_slug: str):
 
             if forms[form_name].is_valid():
                 if form_name == 'comment_form':
-                    """Create and add new comment to the actual displayed post."""
+                    """
+                    Create and add new comment to the
+                    actual displayed post.
+                    """
                     new_comment = forms[form_name].save(commit=False)
                     new_comment.post = post
                     new_comment.save()
 
-                    return HttpResponseRedirect(reverse('blog:post-detail', args=[year, month, day, post.slug]))
+                    return HttpResponseRedirect(
+                        reverse('blog:post-detail',
+                                args=[year, month, day, post.slug]))
 
                 elif form_name == 'share_form':
-                    """Send an email message contains a link to the actual displayed post with short message."""
+                    """
+                    Send an email message contains a link to the actual
+                    displayed post with short message.
+                    """
                     data = forms[form_name].cleaned_data
-                    post_url = request.build_absolute_uri(post.get_absolute_url())
+                    post_url = request.build_absolute_uri(
+                        post.get_absolute_url())
 
-                    subject = f'{data["name"]} ({data["email"]} encourage to read "{post.title}"'
+                    subject = f'{data["name"]} ({data["email"]}' \
+                              f' encourage to read "{post.title}"'
                     message = f'Read post "{post.title}" on page {post_url}' \
-                              f'Comment added by {data["name"]}: {data["comments"]}.'
+                              f'Comment added by {data["name"]}:' \
+                              f' {data["comments"]}.'
 
-                    send_mail(subject, message, 'admin@myblog.com', (data['to'],))
+                    send_mail(
+                        subject=subject,
+                        message=message,
+                        from_email='admin@myblog.com',
+                        recipient_list=(data['to']))
                     context['sent'] = True
                     forms[form_name] = EmailPostForm()
 
