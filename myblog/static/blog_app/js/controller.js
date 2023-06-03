@@ -1,4 +1,5 @@
 class Controller {
+    
     constructor() {
         this.viewElements = {};
         this.Initialize();
