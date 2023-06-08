@@ -72,9 +72,9 @@ def post_list(request, tag_slug: str = None):
                 if form_name == 'search_form':
                     """Filter database query by submitted keyword."""
                     query = forms[form_name].cleaned_data['query']
-                    search_vector_A = SearchVector('title', weight='A')
-                    search_vector_B = SearchVector('body', weight='B')
-                    search_vector = search_vector_A + search_vector_B
+                    search_vector_a = SearchVector('title', weight='A')
+                    search_vector_b = SearchVector('body', weight='B')
+                    search_vector = search_vector_a + search_vector_b
                     search_query = SearchQuery(query)
                     object_list = Post.objects.annotate(
                         search=search_vector,
