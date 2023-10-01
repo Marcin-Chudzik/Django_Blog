@@ -34,21 +34,14 @@ from .models import (
 
 def post_list(request, tag_slug: str = None):
     """
-        View function that displays a list of published blog posts.
-        Optionally filtered by a provided tag.
-        Includes paginator to split the list of posts into pages.
-        Performs different actions based on the incoming form and parameters.
+    :param tag_slug: Representing the slug of a tag to filter posts by.
 
-        :param tag_slug: Representing the slug of a tag to filter posts by.
-
-        The function includes several context variables that are passed to the
-        template for rendering, including:
-
-        - `page`: The current page number of the paginated post list
-        - `posts`: The current page of posts to display
-        - `tag`: The tag object to filter posts by (if any)
-        - `forms`: A dictionary of form objects to include on the page
-        - `query`: The search query string (if any)
+    Context variables passed to the template:
+    - `page`: The current page number of the paginated post list
+    - `posts`: The current page of posts to display
+    - `tag`: The tag object to filter posts by (if any)
+    - `forms`: A dictionary of form objects to include on the page
+    - `query`: The search query string (if any)
     """
     object_list = Post.published.all()
     paginated_by = 10
@@ -146,19 +139,11 @@ def post_list(request, tag_slug: str = None):
 
 def post_detail(request, year: str, month: str, day: str, post_slug: str):
     """
-    View function that displays the detail page for
-    a single blog post with related comments.
-    Performs different actions based on the incoming form.
-    Shows similar posts which contain the biggest number
-    of shared tags with displayed post
-    followed by the publication date.
-
     :params year, month, day: Strings representing the year,
      month and day of the post's publication date.
     :param post_slug: string representing the slug of the post to display.
 
-    The function also includes several context variables that
-    are passed to the template for rendering, including:
+    Context variables passed to the template:
     - `post`: The blog post to display.
     - `comments`: The comments associated with the post.
     - `forms`: A dictionary of form objects to include on the page.
