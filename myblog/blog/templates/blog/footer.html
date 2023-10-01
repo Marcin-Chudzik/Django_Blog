@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 {% load static %}
 <footer>
   <div class="container">
@@ -16,4 +17,24 @@
       </a>
     </div>
   </div>
+=======
+{% load static %}
+<footer>
+  <div class="container">
+    <span>
+      {% if posts %}
+        {% include "pagination.html" with page=posts %}
+      {% endif %}
+    </span>
+    <h3>Marcin Chudzik @2022</h3>
+    <div class="footer__links">
+      <a href="https://www.linkedin.com/in/marcinchudzikdeveloper/" target="_blank">
+        <img src="{% static 'blog_app/img/linkedin.png' %}" alt="LinkedIn">
+      </a>
+      <a href="https://github.com/Marcin-Chudzik" target="_blank">
+        <img src="{% static 'blog_app/img/github.png' %}" alt="GitHub">
+      </a>
+    </div>
+  </div>
+>>>>>>> Stashed changes
 </footer>
